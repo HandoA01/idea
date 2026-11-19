@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리뷰팟 프로토타입</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0D0D1A;
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      gap: 48px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+    }
+    .header .label {
+      display: inline-block;
+      background: rgba(255,101,0,0.15);
+      color: #FF6500;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      color: white;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .header p {
+      color: #64748B;
+      font-size: 15px;
+    }
+
+    /* Flow labels */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .flow-step {
+      text-align: center;
+    }
+    .flow-step .num {
+      width: 28px; height: 28px;
+      background: #FF6500;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: white;
+      margin: 0 auto 8px;
+    }
+    .flow-step .name {
+      color: #94A3B8;
+      font-size: 13px;
+    }
+    .flow-arrow {
+      color: #FF6500;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    /* Phones row */
+    .phones {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .phone-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .phone-label {
+      color: #FF6500;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Phone frame */
+    .phone {
+      width: 300px;
+      height: 620px;
+      background: #1C1C1E;
+      border-radius: 44px;
+      border: 2px solid #2D2D2F;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    /* Dynamic Island */
+    .island {
+      position: absolute;
+      top: 14px; left: 50%;
+      transform: translateX(-50%);
+      width: 110px; height: 30px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 10;
+    }
+
+    /* Status bar */
+    .statusbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 58px 24px 8px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .statusbar .icons {
+      display: flex; gap: 6px; align-items: center; font-size: 12px;
+    }
+
+    /* Screen content */
+    .screen {
+      height: calc(100% - 80px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── SCREEN 1: 알림 ── */
+    .screen-notification {
+      background: #1C1C1E;
+      padding: 16px;
+    }
+    .notif-time {
+      color: #64748B;
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .notif-card {
+      background: #2C2C2E;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid #3A3A3C;
+      margin-bottom: 12px;
+    }
+    .notif-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .notif-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #FF6500, #FFB800);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .notif-app {
+      font-size: 12px;
+      color: #8E8E93;
+      font-weight: 600;
+    }
+    .notif-time2 {
+      font-size: 11px;
+      color: #48484A;
+      margin-left: auto;
+    }
+    .notif-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .notif-body {
+      font-size: 13px;
+      color: #AEAEB2;
+      line-height: 1.5;
+    }
+    .notif-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .notif-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .notif-btn.primary {
+      background: linear-gradient(135deg, #FF6500, #FFB800);
+      color: white;
+    }
+    .notif-btn.secondary {
+      background: #3A3A3C;
+      color: #AEAEB2;
+    }
+    .notif-product {
+      background: #2C2C2E;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid #3A3A3C;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      opacity: 0.5;
+    }
+    .product-img {
+      width: 48px; height: 48px;
+      background: #3A3A3C;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+    .product-info .product-name {
+      font-size: 13px; color: #E5E5EA; font-weight: 600; margin-bottom: 3px;
+    }
+    .product-info .product-sub {
+      font-size: 11px; color: #636366;
+    }
+
+    /* ── SCREEN 2: 채팅 ── */
+    .screen-chat {
+      background: #1C1C1E;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid #2C2C2E;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chat-avatar {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #FF6500, #FFB800);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .chat-name { font-size: 15px; font-weight: 700; color: white; }
+    .chat-status { font-size: 11px; color: #34C759; }
+    .chat-messages {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .msg { display: flex; flex-direction: column; }
+    .msg.agent { align-items: flex-start; }
+    .msg.user { align-items: flex-end; }
+    .bubble {
+      max-width: 220px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .msg.agent .bubble {
+      background: #2C2C2E;
+      color: #E5E5EA;
+      border-bottom-left-radius: 4px;
+    }
+    .msg.user .bubble {
+      background: linear-gradient(135deg, #FF6500, #FFB800);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .msg-time {
+      font-size: 10px;
+      color: #48484A;
+      margin-top: 3px;
+      padding: 0 4px;
+    }
+    .chat-input-bar {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-top: 1px solid #2C2C2E;
+    }
+    .chat-input {
+      flex: 1;
+      background: #2C2C2E;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #636366;
+    }
+    .chat-send {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #FF6500, #FFB800);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      border: none; cursor: pointer;
+    }
+
+    /* ── SCREEN 3: 결과물 ── */
+    .screen-result {
+      background: #1C1C1E;
+      display: flex;
+      flex-direction: column;
+    }
+    .result-header {
+      padding: 12px 20px 0;
+    }
+    .result-title { font-size: 17px; font-weight: 700; color: white; margin-bottom: 12px; }
+    .result-tabs {
+      display: flex;
+      border-bottom: 1px solid #2C2C2E;
+    }
+    .tab {
+      flex: 1; padding: 10px 0; text-align: center;
+      font-size: 13px; font-weight: 600; color: #636366;
+      cursor: pointer;
+    }
+    .tab.active {
+      color: #FF6500;
+      border-bottom: 2px solid #FF6500;
+    }
+    .result-body {
+      flex: 1; padding: 16px; overflow: hidden;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .result-card {
+      background: #2C2C2E;
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .result-card-label {
+      font-size: 10px; font-weight: 700; color: #FF6500;
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .result-card-title {
+      font-size: 13px; font-weight: 700; color: white; margin-bottom: 6px;
+    }
+    .result-card-body {
+      font-size: 12px; color: #8E8E93; line-height: 1.6;
+    }
+    .link-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #3A3A3C;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-top: 4px;
+    }
+    .link-label { font-size: 11px; color: #636366; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-copy {
+      font-size: 11px; font-weight: 700;
+      color: #FF6500; cursor: pointer; white-space: nowrap;
+    }
+    .publish-row {
+      display: flex; gap: 8px; margin-top: auto; padding: 0 16px 16px;
+    }
+    .publish-btn {
+      flex: 1; padding: 12px;
+      border-radius: 12px; border: none;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+    }
+    .publish-btn.naver { background: #03C75A; color: white; }
+    .publish-btn.tistory { background: #FF6500; color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="label">리뷰팟 · AI 에이전트 프로토타입</div>
+    <h1>구매 후기 → 파트너스 수익</h1>
+    <p>30초 후기만 남기면 블로그 글과 숏폼 스크립트가 자동으로 만들어집니다</p>
+  </div>
+
+  <!-- Flow -->
+  <div class="flow">
+    <div class="flow-step">
+      <div class="num">1</div>
+      <div class="name">구매 알림</div>
+    </div>
+    <div class="flow-arrow">▶</div>
+    <div class="flow-step">
+      <div class="num">2</div>
+      <div class="name">30초 대화</div>
+    </div>
+    <div class="flow-arrow">▶</div>
+    <div class="flow-step">
+      <div class="num">3</div>
+      <div class="name">콘텐츠 생성</div>
+    </div>
+  </div>
+
+  <!-- Phones -->
+  <div class="phones">
+
+    <!-- SCREEN 1: 알림 -->
+    <div class="phone-wrap">
+      <div class="phone-label">01 · 구매 알림</div>
+      <div class="phone">
+        <div class="island"></div>
+        <div class="statusbar">
+          <span>09:41</span>
+          <div class="icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="screen">
+          <div class="screen-notification">
+            <div class="notif-time">방금 전</div>
+            <div class="notif-card">
+              <div class="notif-header">
+                <div class="notif-icon">🛍</div>
+                <div>
+                  <div class="notif-app">리뷰팟</div>
+                </div>
+                <div class="notif-time2">방금</div>
+              </div>
+              <div class="notif-title">무선 이어폰 도착했죠? 👋</div>
+              <div class="notif-body">한마디만 남겨주세요. 30초면 블로그 글이 올라갑니다.</div>
+              <div class="notif-actions">
+                <button class="notif-btn primary">지금 후기 남기기</button>
+                <button class="notif-btn secondary">나중에</button>
+              </div>
+            </div>
+            <div class="notif-product">
+              <div class="product-img">🎧</div>
+              <div class="product-info">
+                <div class="product-name">블루투스 이어폰 Pro</div>
+                <div class="product-sub">3일 전 구매 · 어제 도착</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: 채팅 -->
+    <div class="phone-wrap">
+      <div class="phone-label">02 · 에이전트 대화</div>
+      <div class="phone">
+        <div class="island"></div>
+        <div class="statusbar">
+          <span>09:42</span>
+          <div class="icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="screen screen-chat">
+          <div class="chat-header">
+            <div class="chat-avatar">🤖</div>
+            <div>
+              <div class="chat-name">리뷰팟</div>
+              <div class="chat-status">● 온라인</div>
+            </div>
+          </div>
+          <div class="chat-messages">
+            <div class="msg agent">
+              <div class="bubble">블루투스 이어폰 받으셨나요? 어떠셨어요? 😊</div>
+              <div class="msg-time">09:41</div>
+            </div>
+            <div class="msg user">
+              <div class="bubble">배송 빠르고 음질 생각보다 좋아요</div>
+              <div class="msg-time">09:41</div>
+            </div>
+            <div class="msg agent">
+              <div class="bubble">좋네요! 주로 어떤 상황에서 쓰세요?</div>
+              <div class="msg-time">09:41</div>
+            </div>
+            <div class="msg user">
+              <div class="bubble">운동할 때 쓰는데 착용감도 괜찮음</div>
+              <div class="msg-time">09:42</div>
+            </div>
+            <div class="msg agent">
+              <div class="bubble">완벽해요! 블로그 글이랑 숏폼 스크립트 만들어드릴게요 ✨</div>
+              <div class="msg-time">09:42</div>
+            </div>
+          </div>
+          <div class="chat-input-bar">
+            <div class="chat-input">메시지 입력...</div>
+            <div class="chat-send">▶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: 결과물 -->
+    <div class="phone-wrap">
+      <div class="phone-label">03 · 콘텐츠 생성 완료</div>
+      <div class="phone">
+        <div class="island"></div>
+        <div class="statusbar">
+          <span>09:43</span>
+          <div class="icons"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+        </div>
+        <div class="screen screen-result">
+          <div class="result-header">
+            <div class="result-title">콘텐츠 완성 ✅</div>
+            <div class="result-tabs">
+              <div class="tab active">블로그 글</div>
+              <div class="tab">숏폼 스크립트</div>
+            </div>
+          </div>
+          <div class="result-body">
+            <div class="result-card">
+              <div class="result-card-label">제목</div>
+              <div class="result-card-title">운동할 때 쓰기 좋은 블루투스 이어폰 솔직 후기</div>
+            </div>
+            <div class="result-card">
+              <div class="result-card-label">본문 미리보기</div>
+              <div class="result-card-body">운동할 때 이어폰이 자꾸 빠져서 고민이었는데, 이번에 쿠팡에서 블루투스 이어폰을 구매해봤어요. 배송은 주문 다음날 바로 왔고…</div>
+            </div>
+            <div class="result-card">
+              <div class="result-card-label">쿠팡 파트너스 링크</div>
+              <div class="link-row">
+                <span class="link-label">https://coupang.com/vp/partners/...</span>
+                <span class="link-copy">복사</span>
+              </div>
+            </div>
+          </div>
+          <div class="publish-row">
+            <button class="publish-btn naver">네이버 발행</button>
+            <button class="publish-btn tistory">티스토리 발행</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
