@@ -1,78 +1,87 @@
 <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e293b"/>
+    <linearGradient id="bg" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0D0D1A"/>
+      <stop offset="100%" stop-color="#161628"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f97316"/>
-      <stop offset="100%" stop-color="#fbbf24"/>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6500"/>
+      <stop offset="100%" stop-color="#FFB800"/>
     </linearGradient>
-    <linearGradient id="moneybox" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f97316"/>
-      <stop offset="100%" stop-color="#fbbf24"/>
+    <linearGradient id="title" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
     </linearGradient>
   </defs>
 
   <!-- Background -->
   <rect width="600" height="400" fill="url(#bg)"/>
 
-  <!-- Left accent bar -->
-  <rect x="0" y="0" width="4" height="400" fill="url(#accent)"/>
+  <!-- Background decorative circles (subtle) -->
+  <circle cx="520" cy="80" r="140" fill="none" stroke="#FF6500" stroke-width="1" opacity="0.08"/>
+  <circle cx="520" cy="80" r="100" fill="none" stroke="#FF6500" stroke-width="1" opacity="0.08"/>
+  <circle cx="520" cy="80" r="60" fill="#FF6500" opacity="0.05"/>
 
-  <!-- Top section: 서비스 이름 + 태그라인 -->
-  <text x="40" y="80" font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
-        font-size="58" font-weight="900" fill="white" letter-spacing="-1">리뷰팟</text>
+  <!-- Top label -->
+  <rect x="40" y="40" width="110" height="26" rx="13" fill="#FF6500" opacity="0.15"/>
+  <text x="95" y="58" text-anchor="middle"
+        font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
+        font-size="12" fill="#FF6500" font-weight="600">AI 에이전트</text>
 
-  <rect x="40" y="94" width="200" height="2" rx="1" fill="url(#accent)" opacity="0.6"/>
+  <!-- Service name -->
+  <text x="40" y="148"
+        font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
+        font-size="88" font-weight="900" fill="url(#title)" letter-spacing="-3">리뷰팟</text>
 
-  <text x="40" y="124" font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
-        font-size="15" fill="#94a3b8">구매 후기 하나가 수익 콘텐츠가 됩니다</text>
+  <!-- Orange underline accent -->
+  <rect x="40" y="160" width="240" height="3" rx="2" fill="url(#orange)"/>
 
-  <!-- Flow boxes -->
-  <!-- Box 1: 쿠팡 구매 -->
-  <rect x="40" y="168" width="110" height="90" rx="14" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="95" y="210" text-anchor="middle" font-size="30">🛍️</text>
-  <text x="95" y="238" text-anchor="middle" font-family="'Apple SD Gothic Neo', Arial, sans-serif"
-        font-size="12" fill="#cbd5e1">쿠팡 구매</text>
+  <!-- Value prop lines -->
+  <text x="40" y="204"
+        font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
+        font-size="17" fill="#FF6500" font-weight="700">쿠팡에서 뭔가 샀다면,</text>
+  <text x="40" y="234"
+        font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
+        font-size="17" fill="#94A3B8">30초 후기만 남기면 나머지는 알아서 됩니다.</text>
 
-  <!-- Arrow 1 -->
-  <text x="167" y="220" text-anchor="middle" font-size="16" fill="#f97316">▶</text>
+  <!-- 3-step mini flow (text only, clean) -->
+  <rect x="40" y="268" width="510" height="60" rx="12" fill="#FFFFFF" opacity="0.04"/>
+  <rect x="40" y="268" width="510" height="60" rx="12" fill="none" stroke="#334155" stroke-width="1"/>
 
-  <!-- Box 2: 30초 후기 -->
-  <rect x="183" y="168" width="110" height="90" rx="14" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="238" y="210" text-anchor="middle" font-size="30">💬</text>
-  <text x="238" y="238" text-anchor="middle" font-family="'Apple SD Gothic Neo', Arial, sans-serif"
-        font-size="12" fill="#cbd5e1">30초 후기</text>
+  <!-- Step texts -->
+  <text x="118" y="303" text-anchor="middle"
+        font-family="'Apple SD Gothic Neo', Arial, sans-serif"
+        font-size="13" fill="#E2E8F0">🛍 구매</text>
 
-  <!-- Arrow 2 -->
-  <text x="310" y="220" text-anchor="middle" font-size="16" fill="#f97316">▶</text>
+  <text x="192" y="303" text-anchor="middle" font-size="12" fill="#FF6500">▶</text>
 
-  <!-- Box 3: 블로그 + 숏폼 -->
-  <rect x="326" y="168" width="110" height="90" rx="14" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="381" y="210" text-anchor="middle" font-size="30">📱</text>
-  <text x="381" y="238" text-anchor="middle" font-family="'Apple SD Gothic Neo', Arial, sans-serif"
-        font-size="12" fill="#cbd5e1">블로그 + 숏폼</text>
+  <text x="268" y="303" text-anchor="middle"
+        font-family="'Apple SD Gothic Neo', Arial, sans-serif"
+        font-size="13" fill="#E2E8F0">💬 30초 후기</text>
 
-  <!-- Arrow 3 -->
-  <text x="453" y="220" text-anchor="middle" font-size="16" fill="#f97316">▶</text>
+  <text x="344" y="303" text-anchor="middle" font-size="12" fill="#FF6500">▶</text>
 
-  <!-- Box 4: 수익 (highlighted) -->
-  <rect x="469" y="168" width="110" height="90" rx="14" fill="url(#moneybox)"/>
-  <text x="524" y="210" text-anchor="middle" font-size="30">💰</text>
-  <text x="524" y="238" text-anchor="middle" font-family="'Apple SD Gothic Neo', Arial, sans-serif"
-        font-size="12" fill="white" font-weight="bold">파트너스 수익</text>
+  <text x="420" y="303" text-anchor="middle"
+        font-family="'Apple SD Gothic Neo', Arial, sans-serif"
+        font-size="13" fill="#E2E8F0">📱 블로그 + 숏폼</text>
 
-  <!-- Bottom section -->
-  <text x="40" y="310" font-family="'Apple SD Gothic Neo', 'Noto Sans KR', Arial, sans-serif"
-        font-size="13" fill="#475569">알바 대신 부업을 꿈꾸는 대학생을 위한 에이전트</text>
+  <text x="496" y="303" text-anchor="middle" font-size="12" fill="#FF6500">▶</text>
 
-  <!-- Badge -->
-  <rect x="40" y="330" width="90" height="26" rx="13" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="85" y="348" text-anchor="middle" font-family="Arial, sans-serif"
-        font-size="12" fill="#94a3b8">에이전트</text>
+  <text x="540" y="296" text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-size="11" fill="#FFB800" font-weight="700">파트너스</text>
+  <text x="540" y="312" text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-size="11" fill="#FFB800" font-weight="700">수익</text>
 
-  <rect x="143" y="330" width="66" height="26" rx="13" fill="url(#accent)"/>
-  <text x="176" y="348" text-anchor="middle" font-family="Arial, sans-serif"
-        font-size="12" font-weight="bold" fill="white">2 달러</text>
+  <!-- Bottom -->
+  <text x="40" y="368"
+        font-family="'Apple SD Gothic Neo', Arial, sans-serif"
+        font-size="13" fill="#475569">대학생 쿠팡 파트너스 수익화 에이전트</text>
+
+  <!-- Price badge -->
+  <rect x="496" y="352" width="66" height="26" rx="13" fill="url(#orange)"/>
+  <text x="529" y="370" text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-size="13" font-weight="bold" fill="white">2 달러</text>
 </svg>
